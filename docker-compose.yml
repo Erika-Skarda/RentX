@@ -1,0 +1,37 @@
+version: "3.7"
+# docker-compose up -> so executa local , docker-compose up -d funciona remoto
+# docker-compose start, docker-compose down -> remove tudo e docker-compose stop
+# docker exect -it rentx /bin/bash
+# docker rm NOME OI ID DO CONTAINER
+# docker logs rentx -f
+# docker-compose up --force-recreate
+# docker exec rentx cat /etc/hosts => localizar o IP
+services:
+    database_ignite: 
+        image: postgres
+        container_name: database_ignite
+        restart: always
+        ports: 
+            - 5433:5433
+        environment: 
+            - POSTGRES_USER=erikaskarda
+            - POSTGRES_PASSWORD=lindinha
+            - POSTGRES_DB=rentx
+            - PGPORT=5433
+        volumes:
+            - pgdata:/data/postgres
+    app:
+        build: .
+        container_name: rentx
+        ports:
+            - 3333:3333
+            - 9229:9229
+        volumes:
+            - .:/usr/app
+        links:
+            - database_ignite
+        depends_on: 
+            - database_ignite
+volumes: 
+    pgdata:
+        driver: local
