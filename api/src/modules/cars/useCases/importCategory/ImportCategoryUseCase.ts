@@ -1,6 +1,6 @@
 import fs from 'fs';
 import csvParse from 'csv-parser';
-import { ICategoryRepository } from '../../repositories/ICategoriesRepository';
+import { ICategoriesRepository } from '../../repositories/ICategoriesRepository';
 
 interface IImportCategory {
     name: string;
@@ -9,7 +9,7 @@ interface IImportCategory {
 
 class ImportCategoryUseCase {
 
-    constructor(private categoriesRepository: ICategoryRepository){};
+    constructor(private categoriesRepository: ICategoriesRepository){};
     
     loadCategories(file: Express.Multer.File): Promise<IImportCategory[]> {
 
